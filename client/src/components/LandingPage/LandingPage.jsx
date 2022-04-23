@@ -1,13 +1,28 @@
-import React from 'react';
-import style from './LandingPage.module.css';
 import { Link } from 'react-router-dom';
+import style from './LandingPage.module.css';
+import { getAllRecipes, getAllDiets} from '../../redux/action';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
-const LandingPage = () => {
+function LandingPage() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllDiets());
+    console.log('Llenado de dietas');
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllRecipes());
+    console.log('Llenado de recetas');
+  }, []);
+  
   return (
-    <main className={style.landing}>
+    <div className={style.landing} >
       <h1>Bienvenidos</h1>
-      <Link to='/home'>Ir al Home</Link>
-    </main>
+      <Link to='/home'>Ingresar</Link>
+    </div>
   )
 }
 
