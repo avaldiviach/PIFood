@@ -1,0 +1,45 @@
+form {
+    display: grid;
+    gap: 20px;
+    grid-template: 1fr / repeat(auto-fit, minmax(200px, 1fr));
+    width: 100%;
+    max-width: 619px;
+}
+
+label {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+button {
+    color: blue;
+    border:black 2px solid;
+    font-weight: bold;
+    font-size: 18px;
+    width: fit-content;
+    display: inline-block;
+}
+
+.range {
+    grid-column: span 2;
+    padding: 15px;
+}
+
+span {
+    font-weight: bold;
+    border: blue 3px solid;
+    border-radius: 50%;
+    width: fit-content;
+    padding: 10px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.form {
+    display: grid;
+    justify-content: center;
+    padding: 10px;
+    background-color: beige;
+}

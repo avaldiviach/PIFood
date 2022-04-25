@@ -8,7 +8,7 @@ const getAllRecipes = async (req, res) => {
   try {
     const count = await Recipe.count();
     if (count === 0) {
-      const { data } = await axios(`${API_URL}/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=3`);
+      const { data } = await axios(`${API_URL}/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=9`);
       data.results.forEach(async r => {
         //const steps = await r.analyzedInstructions.steps;
         //console.log(steps);
@@ -65,6 +65,12 @@ const getRecipe = async (req, res) => {
         name: {
           [Op.iLike]: `%${req.query.name}%`
         }
+      },
+      include: {
+        model: Diet,
+        through: {
+          attributes: []
+        }
       }
     });
     return query.length > 0 ? res.json(query) : res.json({ message: "Ninguna coincidencia encontrada" });
@@ -73,19 +79,23 @@ const getRecipe = async (req, res) => {
   }
 }
 
+const getDetailById = async (id) => {
+  const detail = await Recipe.findByPk(id, {
+    include: {
+      model: Diet,
+      through: {
+        attributes: []
+      }
+    }
+  });
+  return detail;
+}
 const getRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) return res.json({ message: 'Ningún id recibido' });
-    const detail = await Recipe.findByPk(id, {
-      include: {
-        model: Diet,
-        through: {
-          attributes: []
-        }
-      }
-    });
-    return detail ? res.json(detail) : res.json({ message: 'Ninguna receta encontrada con el id proporcionado' });
+    const found = await getDetailById(id);
+    return found ? res.json(found) : res.json({ message: 'Ninguna receta encontrada con el Id proporcionado' });
   } catch (e) {
     res.json({ message: e.message });
   }
@@ -95,17 +105,23 @@ const postRecipe = async (req, res) => {
   try {
     const { name, image, recipe, dishType, score, healthy, dietType } = req.body;
     if (!name || !recipe || !score || !healthy) return res.json({ message: 'Faltan datos' });
+    console.log(req.body);
     const [newRecipe, created] = await Recipe.findOrCreate({
       where: {
         name
       },
       defaults: {
-        ...req.body,
+        name,
+        image,
+        recipe,
+        dishType,
+        score,
+        healthy,
         created: true
       }
     });
     dietType.map(d => newRecipe.addDiets(d));
-    return created ? res.json({message: 'Receta creada satisfactoriamente'}) : res.json({message: 'Receta ya existente en la BD'});
+    return created ? res.json(await getDetailById(newRecipe.id)) : res.json({ message: 'Receta ya existente en la BD' });
   } catch (e) {
     res.json({ message: e.message });
   }

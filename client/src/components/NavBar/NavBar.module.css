@@ -1,0 +1,8 @@
+nav a {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+nav a:hover {
+    color: tomato;
+}

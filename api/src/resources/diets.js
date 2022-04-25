@@ -1,16 +1,16 @@
 const diets = [
-    "gluten free",
-    "dairy free",
-    "lacto ovo vegetarian",
-    "vegan",
-    "paleolithic",
-    "primal",
-    "paleo",
-    "pescatarian",
-    "fodmap friendly",
-    "whole 30",
-    "ketogenic"
-];
+  'dairy free',
+  'fodmap friendly',
+  'gluten free',
+  'ketogenic',
+  'lacto ovo vegetarian',
+  'paleo',
+  'paleolithic',
+  'pescatarian',
+  'primal',
+  'vegan',
+  'whole 30'
+]
 
 module.exports = diets;
 

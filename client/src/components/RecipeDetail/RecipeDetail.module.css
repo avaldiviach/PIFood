@@ -1,0 +1,24 @@
+p {
+    max-width: 80%;
+    display: inline-block;
+    border: green 1px solid;
+    border-radius: 5px;
+    width: 800px;
+    height: auto;
+    padding: 20px;
+}
+
+.detail {
+    padding: 30px;
+    background-color: aquamarine;
+    width: 100vw;
+    font-weight: 400;
+}
+
+.imagen {
+    margin-bottom: 20px;
+}
+
+li {
+    list-style-type: none;
+}

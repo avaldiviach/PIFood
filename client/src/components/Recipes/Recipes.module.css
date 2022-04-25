@@ -1,0 +1,6 @@
+.recipes {
+    display: grid;
+    grid-template: 1fr / repeat(auto-fit, minmax(400px, 1fr));
+    gap: 10px;
+    margin: auto 10px;
+}
