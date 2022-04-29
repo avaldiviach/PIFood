@@ -29,11 +29,11 @@ module.exports = (sequelize) => {
     healthy: {
       type: DataTypes.INTEGER,
       allowNull: false
-    }/* ,
+    },
     steps: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: true
-    } */,
+    },
   created: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,

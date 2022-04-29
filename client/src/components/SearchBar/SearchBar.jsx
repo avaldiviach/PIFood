@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import style from './SearchBar.module.css';
-import { getSearchRecipe } from '../../redux/action';
+import { getSearchRecipe, setCurrentPage } from '../../redux/action';
 
 function SearchBar() {
 
@@ -20,7 +20,10 @@ function validate() {
     function buscar(e) {
         e.preventDefault();
         console.log('buscando', query);
-        if(validate(query)) dispatch(getSearchRecipe(query));
+        if(validate(query)) {
+            dispatch(setCurrentPage(1));
+            dispatch(getSearchRecipe(query));
+        }
         setQuery("");
     }
 

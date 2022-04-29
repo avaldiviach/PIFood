@@ -6,6 +6,7 @@ p {
     width: 800px;
     height: auto;
     padding: 20px;
+    text-align: justify;
 }
 
 .detail {
@@ -21,4 +22,8 @@ p {
 
 li {
     list-style-type: none;
+}
+
+hr {
+    margin-top: 30px;
 }

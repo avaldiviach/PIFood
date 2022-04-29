@@ -11,7 +11,7 @@ const getDiets = async (req, res) => {
     }
     res.json(await Diet.findAll());
   } catch (e) {
-    res.json({ message: e.message });
+    res.status(404).json({ message: e.message });
   }
 }
 

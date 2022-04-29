@@ -29,6 +29,8 @@ function RecipeDetail() {
         {detail.diets?.length > 0 && detail.diets.map((d, i) => <li key={i}>{d.name}</li>)}
         <h3>Puntuación</h3><span>{detail.score}</span>/100
         <h3>Nivel de Comida Saludable</h3><span>{detail.healthy}</span>/100
+        {detail.steps?.length > 0 && <><hr></hr><h3>Pasos</h3></> }
+        {detail.steps?.length > 0 && detail.steps.map((s, i) => <p key={i}><b>{i+1}.- </b>{s}</p>)}
       </div>
     </>
   )

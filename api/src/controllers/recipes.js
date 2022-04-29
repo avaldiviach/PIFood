@@ -10,17 +10,15 @@ const getAllRecipes = async (req, res) => {
     if (count === 0) {
       const { data } = await axios(`${API_URL}/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=9`);
       data.results.forEach(async r => {
-        //const steps = await r.analyzedInstructions.steps;
-        //console.log(steps);
         const [newRecipe, created] = await Recipe.findOrCreate({
           where: { name: r.title },
           defaults: {
             image: r.image,
-            recipe: r.summary,
+            recipe: r.summary.replace( /(<([^>]+)>)/ig, ''),
             dishType: r.dishTypes,
             score: r.spoonacularScore,
-            healthy: r.healthScore
-            //steps: r.analyzedInstructions?.steps?.map({ step } = step)
+            healthy: r.healthScore,
+            steps: r.analyzedInstructions?.map(s => s.steps?.map((st) => st.step)).flat()
           }
         });
         r.diets.map(async d => {
@@ -30,7 +28,7 @@ const getAllRecipes = async (req, res) => {
               name: d
             }
           });
-          newRecipe.addDiets(found.id);
+          newRecipe.addDiets(found?.id);
         })
       });
       return res.json(await Recipe.findAll({
@@ -40,7 +38,7 @@ const getAllRecipes = async (req, res) => {
             attributes: []
           }
         },
-        order: ['id', [Diet, 'id', 'ASC']]
+        order: [['name', 'ASC'], 'id', [Diet, 'id', 'ASC']]
       }));
     }
     res.json(await Recipe.findAll({
@@ -50,10 +48,10 @@ const getAllRecipes = async (req, res) => {
           attributes: []
         }
       },
-      order: ['id', [Diet, 'id', 'ASC']]
+      order: [['name', 'ASC'], 'id', [Diet, 'id', 'ASC']]
     }));
   } catch (e) {
-    res.json({ message: e.message });
+    res.status(404).json({ message: e.message });
   }
 }
 
@@ -73,9 +71,9 @@ const getRecipe = async (req, res) => {
         }
       }
     });
-    return query.length > 0 ? res.json(query) : res.json({ message: "Ninguna coincidencia encontrada" });
+    return query.length > 0 ? res.json(query) : res.json({ message: `Ninguna coincidencia encontrada` });
   } catch (e) {
-    res.json({ message: e.message });
+    res.status(404).json({ message: e.message });
   }
 }
 
@@ -90,20 +88,21 @@ const getDetailById = async (id) => {
   });
   return detail;
 }
+
 const getRecipeById = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) return res.json({ message: 'Ningún id recibido' });
     const found = await getDetailById(id);
-    return found ? res.json(found) : res.json({ message: 'Ninguna receta encontrada con el Id proporcionado' });
+    return found ? res.json(found) : res.json({ message: `Ninguna receta encontrada con el Id = ${id}` });
   } catch (e) {
-    res.json({ message: e.message });
+    res.status(404).json({ message: e.message });
   }
 }
 
 const postRecipe = async (req, res) => {
   try {
-    const { name, image, recipe, dishType, score, healthy, dietType } = req.body;
+    const { name, image, recipe, dishType, score, healthy, dietType, steps } = req.body;
     if (!name || !recipe || !score || !healthy) return res.json({ message: 'Faltan datos' });
     console.log(req.body);
     const [newRecipe, created] = await Recipe.findOrCreate({
@@ -117,13 +116,14 @@ const postRecipe = async (req, res) => {
         dishType,
         score,
         healthy,
+        steps,
         created: true
       }
     });
     dietType.map(d => newRecipe.addDiets(d));
     return created ? res.json(await getDetailById(newRecipe.id)) : res.json({ message: 'Receta ya existente en la BD' });
   } catch (e) {
-    res.json({ message: e.message });
+    res.status(404).json({ message: e.message });
   }
 }
 

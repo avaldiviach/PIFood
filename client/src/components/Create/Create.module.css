@@ -43,3 +43,18 @@ button:hover {
     padding: 10px;
     background-color: beige;
 }
+
+h5 {
+    margin: 0;
+    text-align: left;
+    color: red;
+}
+
+.steps {
+    display: grid;
+    grid-column: span 2;
+}
+
+.inputStep {
+    margin-top: 10px;
+}

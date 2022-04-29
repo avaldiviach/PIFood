@@ -1,4 +1,4 @@
-import { GET_ALL_RECIPES, GET_ALL_DIETS, RECIPE_DETAIL, SEARCH_RECIPES, FILTER_BY_DIETS, FILTER_BY_ORIGIN } from "../../constants"
+import { GET_ALL_RECIPES, GET_ALL_DIETS, RECIPE_DETAIL, SEARCH_RECIPES, FILTER_BY_DIETS, FILTER_BY_ORIGIN, SET_CURRENT_PAGE, ORDER_RECIPES } from "../../constants"
 
 export const getAllRecipes = () => dispatch => {
   return fetch(`http://localhost:3001/recipes/all`)
@@ -64,4 +64,14 @@ export const getFilterByDiets = (dietType) => ({
 export const getFilterByOrigin = (origin) => ({
   type: FILTER_BY_ORIGIN,
   payload: JSON.parse(origin)
+});
+
+export const setCurrentPage = (page) => ({
+  type: SET_CURRENT_PAGE,
+  payload: JSON.parse(page)
+});
+
+export const orderRecipes = (order) => ({
+  type: ORDER_RECIPES,
+  payload: JSON.parse(order)
 });
