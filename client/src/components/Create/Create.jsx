@@ -6,7 +6,7 @@ import style from './Create.module.css';
 import NavBar from '../NavBar/NavBar';
 import dishes from '../../resources/dishes';
 
-function validate(input, setInput) {
+function validate(input) {
   let errorObj = {};
 
   errorObj.name = (!/^[A-Za-z\sÁáÉéÍíÓóÚú]{10,255}$/.test(input.name) || input.name === "")
@@ -17,7 +17,7 @@ function validate(input, setInput) {
     ? "Ingresar una reseña de 10 caracteres hasta 255 entre letras, números y signos de puntuación"
     : ""
 
-  errorObj.image = input.image === "" ?? null ? "" : (!/^(https?:\/\/){1}([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(input.image))
+  errorObj.image = input.image === "" ?? null ? "" : (!/^(https?:\/\/){1}([\da-z.-]+).([a-z.]{2,6})([/\w .-]*)*\/?$/.test(input.image))
     ? "Ingresar una URL válida.Ejemplo: http://......."
     : ""
 
@@ -35,7 +35,7 @@ function Create() {
     recipe: "",
     image: null,
     dishType: [],
-    score: "50",
+    //score: "50",
     healthy: "50",
     dietType: [],
     steps: []
@@ -109,15 +109,15 @@ function Create() {
         <form onSubmit={submit}>
           <label>Nombre de la Receta<sup title='Campo requerido'> (*)</sup></label>
           <input type='text' name='name' value={input.name} size='40' onChange={change} />
-          <label></label>{error.name ? <h5>{error.name}</h5> : <h5></h5>}
+          <label></label>{error.name ? (<h5>{error.name}</h5>) : (<h5> </h5>)}
           <label>Reseña de la Receta<sup title='Campo requerido'> (*)</sup></label>
           <textarea name='recipe' rows='10' value={input.recipe} onChange={change} />
-          <label></label>{error.recipe ? <h5>{error.recipe}</h5> : <h5></h5>}
+          <label></label>{error.recipe ? <h5>{error.recipe}</h5> : <h5> </h5>}
           <label>URL de la Imagen<sup title='Campo requerido'> (*)</sup></label>
           <input type='url' name='image' value={input.image} onChange={change} />
-          <label></label>{error.image ? <h5>{error.image}</h5> : <h5></h5>}
-          <label>Puntuación</label><span>{input.score}</span>
-          <input type='range' name='score' value={input.score} onChange={change} className={style.range} />
+          <label></label>{error.image ? <h5>{error.image}</h5> : <h5> </h5>}
+         {/*  <label>Puntuación</label><span>{input.score}</span>
+          <input type='range' name='score' value={input.score} onChange={change} className={style.range} /> */}
           <label>Nivel de Saludable</label><span>{input.healthy}</span>
           <input type='range' name='healthy' value={input.healthy} onChange={change} className={style.range} />
           <label>Tipo de Platos</label>
@@ -128,7 +128,7 @@ function Create() {
           <select name='dietType' value={input.dietType} size='11' multiple onChange={change} >
             {diets && diets.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
           </select>
-          <label></label>{error.dietType ? <h5>{error.dietType}</h5> : <h5></h5>}
+          <label></label>{error.dietType ? <h5>{error.dietType}</h5> : <h5> </h5>}
           <section id='steps' className={style.steps} >
             <label>Agregar pasos <button onClick={addStep} >+</button></label>
             {console.log(error)}

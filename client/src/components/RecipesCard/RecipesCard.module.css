@@ -1,14 +1,23 @@
 .recipe {
-    border: goldenrod 2px solid;
-    max-width: 600px;
-    padding: 10px;
+  border: goldenrod 2px solid;
+  max-width: 600px;
+  padding: 10px;
+  height: 610px;
 }
 
 img {
-    width: 312px;
-    height: 231px;
+  width: 312px;
+  height: 231px;
 }
 
 .title {
-    height: 50px;
+  height: 50px;
+}
+
+.span {
+  margin-top: 30px;
+}
+
+.listDiet {
+  height: 30px;
 }

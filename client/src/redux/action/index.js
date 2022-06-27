@@ -49,10 +49,13 @@ export const getDetailRecipe = (id) => dispatch => {
 export const getSearchRecipe = (query) => dispatch => {
   return fetch(`http://localhost:3001/recipes/?name=${query}`)
     .then(resp => resp.json())
-    .then(data => dispatch({
-      type: SEARCH_RECIPES,
-      payload: data
-    }))
+    .then(data => {
+      if(!Array.isArray(data)) data=[];
+      dispatch({
+        type: SEARCH_RECIPES,
+        payload: data
+      });
+    })
     .catch(e => console.log(e))
 }
 

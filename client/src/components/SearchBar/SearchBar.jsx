@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import style from './SearchBar.module.css';
 import { getSearchRecipe, setCurrentPage } from '../../redux/action';
+import style from './SearchBar.module.css';
 
 function SearchBar() {
 

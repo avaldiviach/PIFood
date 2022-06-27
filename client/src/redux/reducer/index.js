@@ -6,7 +6,6 @@ const initialState = {
   allDiets: [],
   filtered: [],
   search: [],
-  order: [],
   currentPage: 1
 };
 
@@ -47,17 +46,17 @@ function reducer(state = initialState, action) {
         currentPage: action.payload,
       });
     case ORDER_RECIPES:
-      console.log(action.payload);
-      state.order = (action.payload === 1) ?
-        state.allRecipes.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 0)
+      let order = [...state.allRecipes];
+      order = (action.payload === 1) ?
+        order.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
         : (action.payload === 2) ?
-          state.allRecipes.sort((a, b) => b.name.toLowerCase() > a.name.toLowerCase() ? 1 : b.name.toLowerCase() < a.name.toLowerCase() ? -1 : 0)
+          order.sort((a, b) => b.name.toLowerCase() > a.name.toLowerCase() ? 1 : -1)
           : (action.payload === 3) ?
-            state.allRecipes.sort((a, b) => a.score - b.score)
-            : state.allRecipes.sort((a, b) => b.score - a.score)
+            order.sort((a, b) => a.healthy - b.healthy)
+            : order.sort((a, b) => b.healthy - a.healthy)
       return ({
         ...state,
-        allRecipes: state.order
+        allRecipes: order
       });
     default: return state;
   }

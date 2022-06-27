@@ -8,7 +8,7 @@ const getAllRecipes = async (req, res) => {
   try {
     const count = await Recipe.count();
     if (count === 0) {
-      const { data } = await axios(`${API_URL}/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=9`);
+      const { data } = await axios(`${API_URL}/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
       data.results.forEach(async r => {
         const [newRecipe, created] = await Recipe.findOrCreate({
           where: { name: r.title },
@@ -16,9 +16,10 @@ const getAllRecipes = async (req, res) => {
             image: r.image,
             recipe: r.summary.replace( /(<([^>]+)>)/ig, ''),
             dishType: r.dishTypes,
-            score: r.spoonacularScore,
+            //score: r?.spoonacularScore,
             healthy: r.healthScore,
-            steps: r.analyzedInstructions?.map(s => s.steps?.map((st) => st.step)).flat()
+            steps: r.analyzedInstructions?.map(s => s.steps?.map((st) => st.step)).flat(),
+            price: r.pricePerServing
           }
         });
         r.diets.map(async d => {
@@ -102,8 +103,8 @@ const getRecipeById = async (req, res) => {
 
 const postRecipe = async (req, res) => {
   try {
-    const { name, image, recipe, dishType, score, healthy, dietType, steps } = req.body;
-    if (!name || !recipe || !score || !healthy) return res.json({ message: 'Faltan datos' });
+    const { name, image, recipe, dishType, /* score, */ healthy, dietType, steps } = req.body;
+    if (!name || !recipe /* || !score */ || !healthy) return res.json({ message: 'Faltan datos' });
     console.log(req.body);
     const [newRecipe, created] = await Recipe.findOrCreate({
       where: {
@@ -114,7 +115,7 @@ const postRecipe = async (req, res) => {
         image,
         recipe,
         dishType,
-        score,
+        /* score, */
         healthy,
         steps,
         created: true

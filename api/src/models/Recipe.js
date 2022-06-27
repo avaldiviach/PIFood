@@ -22,10 +22,10 @@ module.exports = (sequelize) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true
     },
-    score: {
+    /* score: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
+    }, */
     healthy: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -33,6 +33,9 @@ module.exports = (sequelize) => {
     steps: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: true
+    },
+    price: {
+      type: DataTypes.REAL,
     },
   created: {
     type: DataTypes.BOOLEAN,

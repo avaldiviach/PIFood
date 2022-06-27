@@ -66,8 +66,8 @@ function FilterBar() {
         <option value=""> - elegir - </option>
         <option value='1'>Alfabéticamente - ASC</option>
         <option value='2'>Alfabéticamente - DESC</option>
-        <option value='3'>Puntuación - ASC</option>
-        <option value='4'>Puntuación - DESC</option>
+        <option value='3'>Salud - ASC</option>
+        <option value='4'>Salud - DESC</option>
       </select>
     </div>
   )
